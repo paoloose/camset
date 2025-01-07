@@ -83,13 +83,13 @@ class Layout:
         openbtn.set_is_important(True)
         openbtn.set_icon_name("gtk-open")
         openbtn.connect('clicked', self.dialogs.on_open_clicked, self.win, path, v4l2_control)
-        
+
         savebtn = Gtk.ToolButton()
         savebtn.set_label("Save settings")
         savebtn.set_is_important(True)
         savebtn.set_icon_name("gtk-save")
         savebtn.connect('clicked', self.dialogs.on_save_clicked, self.win, path, v4l2_control)
-        
+
         self.win.autoload_checkbutton = Gtk.ToggleToolButton()
         self.win.autoload_checkbutton.set_label("Autoload settings")
         self.win.autoload_checkbutton.set_active(True)

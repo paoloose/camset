@@ -30,7 +30,7 @@ class CamWindow(Gtk.Window):
     def setup_video(self):
         fixed = Gtk.Fixed()
         self.add(fixed)
-        self.image_area = Gtk.Box() 
+        self.image_area = Gtk.Box()
         self.videobox = Gtk.Box(spacing=10, orientation=Gtk.Orientation.VERTICAL)
         self.image = Gtk.Image()
         self.videobox.add(self.image_area)
@@ -41,7 +41,7 @@ class CamWindow(Gtk.Window):
     def setup_video_controls(self, fixed):
         self.vidcontrolgrid = Gtk.Grid()
         self.vidcontrolgrid.set_column_homogeneous(True)
-        self.label = Gtk.Label(label="Camera feed scale (percentage)")  
+        self.label = Gtk.Label(label="Camera feed scale (percentage)")
         self.adj = Gtk.Adjustment(value = self.videosize, lower = 1, upper = 100, step_increment = 1, page_increment = 1, page_size=0)
         self.scale = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL, adjustment=self.adj)
         self.scale.set_digits(0)
@@ -81,7 +81,7 @@ class CamWindow(Gtk.Window):
 
     def start_camera_feed(self, pixelformat, vfeedwidth, vfeedheight, fourcode):
         card = self.win.card
-    
+
         process = subprocess.Popen(['v4l2-ctl', '-d', card, '-v', 'height={0},width={1},pixelformat={2}'.format(vfeedheight, vfeedwidth, pixelformat)], universal_newlines=True, stdout=subprocess.PIPE)
         out, err = process.communicate()
         if process.returncode == 0:
@@ -92,8 +92,8 @@ class CamWindow(Gtk.Window):
             cap.set(cv2.CAP_PROP_FOURCC, fourcode)
             # cap.set(5,1) 1 fps
             self.cap = cap
-            return GLib.idle_add(self.show_frame) 
-        else: 
+            return GLib.idle_add(self.show_frame)
+        else:
             if "Device or resource busy" in str(out):
                 errorMsg = "Unable to start feed, the device is busy"
             elif process.returncode == 1:

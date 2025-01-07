@@ -2,11 +2,11 @@ import os
 import cv2
 import subprocess
 
-class Helpers:     
+class Helpers:
     def get_config_path(self):
         path = "~/.config/camset"
         return os.path.expanduser(path)
-    
+
     def get_active_card(self, win):
         return win.device_selection.get_model()[win.device_selection.get_active()][0].split(' - ', 1)[0]
 

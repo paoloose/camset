@@ -18,8 +18,8 @@ class Window(Gtk.Window):
         layout.setup_main_container()
         layout.setup_boxes()
         layout.setup_device_selection_box()
-        layout.setup_buttons()        
-        layout.setup_warning_container()    
+        layout.setup_buttons()
+        layout.setup_warning_container()
         layout.setup_toolbar(helpers.get_config_path(), V4L2Control(self))
         layout.setup_grid()
         self.layout = layout
@@ -46,10 +46,10 @@ class Window(Gtk.Window):
         self.read_capabilites()
         if self.read_resolution_capabilites():
             self.layout.setup_resolution()
-            self.resolution_selection.set_active(v4l2_control.set_active_resolution())            
+            self.resolution_selection.set_active(v4l2_control.set_active_resolution())
         self.show_all()
         v4l2_control.set_sensitivity()
-        
+
     def on_btn_showcam_toggled(self, widget):
         if widget.get_active() and not camwin.props.visible:
             camwin.init_camera_feed(helpers.get_video_resolution(self))
@@ -64,13 +64,13 @@ class Window(Gtk.Window):
         self.clear_and_rebuild()
 
     def on_device_changed(self, _widget):
-        camwin.stop_camera_feed() 
+        camwin.stop_camera_feed()
         self.card = helpers.get_active_card(self)
         self.cardname = helpers.get_card_name(self.card)
         subtitle = " - {}".format(self.cardname) if len(self.cardname) > 0 else ""
         self.set_title(title="Camset{}".format(subtitle))
         camwin.set_title(title="Camera feed{}".format(subtitle))
-        
+
         self.clear_and_rebuild()
         configfile = helpers.get_config_path() + "/" + self.cardname + ".camset"
         if (os.path.exists(configfile) and self.autoload_checkbutton.get_active() and self.read_resolution_capabilites()):
@@ -118,21 +118,21 @@ class Window(Gtk.Window):
                 label.set_text(label_text)
                 label.set_size_request(-1, 35)
                 label.set_halign(Gtk.Align.END)
-                
+
                 if "int" in line:
-                    self.layout.add_int_item(line, setting, value, v4l2_control.set_int_value)  
-                    self.int_label_box.pack_start(label, False, False, 0)                  
-                        
-                if "bool" in line: 
-                    self.layout.add_bool_item(setting, value, v4l2_control.set_bool_value)               
+                    self.layout.add_int_item(line, setting, value, v4l2_control.set_int_value)
+                    self.int_label_box.pack_start(label, False, False, 0)
+
+                if "bool" in line:
+                    self.layout.add_bool_item(setting, value, v4l2_control.set_bool_value)
                     label.set_size_request(-1, 25)
                     self.bool_label_box.pack_start(label, False, False, 0)
-                
+
                 if "menu" in line:
                     menu_value = value
                     self.layout.add_menu_item(setting, v4l2_control.on_ctrl_combo_changed)
                     self.menu_label_box.pack_start(label, False, False, 0)
-            
+
             # menu options
             elif line:
                 # map index to value
@@ -144,7 +144,7 @@ class Window(Gtk.Window):
                     index += 1
                 if value == menu_value:
                     self.ctrl_combobox.set_active(index - 1)
-                    
+
     def check_devices(self):
         devices = subprocess.run(['v4l2-ctl', '--list-devices'], check=False, universal_newlines=True, stdout=subprocess.PIPE)
         i = 0

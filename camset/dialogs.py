@@ -16,7 +16,7 @@ class Dialogs:
 
     def load_settings_from_file(self, filename, dialog, win, v4l2_control):
         card = win.card
-        try:              
+        try:
             f = open(filename, "r")
             lines = f.readlines()
             for line in lines:
@@ -55,13 +55,13 @@ class Dialogs:
 
         self.add_filters(dialog)
         dialog.set_current_folder(path)
-        
+
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             filename = dialog.get_filename()
             self.load_settings_from_file(filename, dialog, win, v4l2_control)
         dialog.destroy()
-        
+
     def on_save_clicked(self, btn, win, path, v4l2_control):
         capabilites = v4l2_control.get_capabilities(win.card)
         tostore = ""
@@ -90,12 +90,12 @@ class Dialogs:
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             filename = dialog.get_filename()
-            try:              
+            try:
                 f = open(filename, "w")
                 f.write(tostore.strip())
                 f.close()
                 self.show_message("Settings file {0} successfully saved".format(filename), False, win)
-            except:                
+            except:
                 dialog.destroy()
                 self.show_message("Unable to save file {0}".format(filename), True, win)
                 return
